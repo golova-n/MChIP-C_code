@@ -1,1 +1,1 @@
-# MChIP-C-code
+# MChIP-C code
