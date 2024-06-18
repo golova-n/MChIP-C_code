@@ -1,0 +1,13 @@
+#! /usr/bin/env Rscript
+library("dplyr")
+library("tidyr")
+bedpe <- read.csv("tmp/HiC_filtered.bedpe", header = F, sep = "\t")
+bedpe <- filter(bedpe,!(duplicated(bedpe) | duplicated(bedpe, fromLast = TRUE)))
+bedpe <- filter(bedpe, (V5-V2)>5000)
+bedgraph <- rbind(bedpe[,c(1:3,7)],setNames(bedpe[,c(4:6,7)],names(bedpe[,c(1:3,7)])))
+bedgraph <- bedgraph %>% group_by(V1,V2,V3) %>% summarise(sum=sum(V7))
+write.table(bedgraph, "tmp/HiC.bedgraph", col.names = F, row.names = F, sep = "\t", quote = F)
+bedgraph <- rbind(bedpe[,c(1:3,8)],setNames(bedpe[,c(4:6,8)],names(bedpe[,c(1:3,8)])))
+bedgraph <- filter(bedgraph, V8>0)
+bedgraph <- bedgraph %>% group_by(V1,V2,V3) %>% summarise(sum=sum(V8))
+write.table(bedgraph, "tmp/HiC.ICE.bedgraph", col.names = F, row.names = F, sep = "\t", quote = F)
