@@ -27,7 +27,7 @@ rm Auxiliary_data/hg19/male.hg19.fa.tar
 wget https://storage.googleapis.com/encode-pipeline-genome-data/hg19/hg19.chrom.sizes -q -P Auxiliary_data/hg19
 wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/hg38ToHg19.over.chain.gz -q -P Auxiliary_data/hg19
 wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5FK562%5FHiCCUPS%5Flooplist%5Fwith%5Fmotifs%2Etxt%2Egz -q -P Auxiliary_data/
-wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE120nnn/GSE120861/suppl/GSE120861%5Fall%5Fdeg%5Fresults%2Eat%5Fscale%2Etxt%2Egz -q -p Auxiliary_data/CRISPRi_data
+wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE120nnn/GSE120861/suppl/GSE120861%5Fall%5Fdeg%5Fresults%2Eat%5Fscale%2Etxt%2Egz -q -P Auxiliary_data/CRISPRi_data
 wget http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz -q -P Auxiliary_data/
 # load digest file
 echo "loading epigenomic profile and peak files" >&3
