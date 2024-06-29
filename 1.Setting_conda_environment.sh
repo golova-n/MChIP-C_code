@@ -1,3 +1,5 @@
+exec 2>/dev/null
+
 mkdir -p Auxiliary_data/hg19
 mkdir -p Figures/Fig.2
 mkdir -p Figures/Fig.3
@@ -10,7 +12,7 @@ mkdir -p Figures/Fig.S4
 mkdir -p Figures/Fig.S5
 
 echo "setting conda environment"
-conda install -n base conda-libmamba-solver
+conda install -y -n base conda-libmamba-solver
 conda config --set solver libmamba
 conda env create -f mchipc_environment.yml
 conda activate mchip-c
