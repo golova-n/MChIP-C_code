@@ -1,4 +1,4 @@
-exec 2>/dev/null
+exec 3>&1 &>/dev/null
 
 mkdir -p Auxiliary_data/hg19
 mkdir -p Figures/Fig.2
@@ -11,16 +11,16 @@ mkdir -p Figures/Fig.S3
 mkdir -p Figures/Fig.S4
 mkdir -p Figures/Fig.S5
 
-echo "setting conda environment"
+echo "setting conda environment" >&3
 conda install -y -n base conda-libmamba-solver
 conda config --set solver libmamba
 conda env create -f mchipc_environment.yml
 conda activate mchip-c
 
-echo "installing R packages"
+echo "installing R packages" >&3
 ./Helpers/setting_conda_helper.R
 
-echo "downloading auxiliary data"
+echo "downloading auxiliary data" >&3
 wget https://storage.googleapis.com/encode-pipeline-genome-data/hg19/bwa_index/male.hg19.fa.tar -q -P Auxiliary_data/hg19
 tar -xf Auxiliary_data/hg19/male.hg19.fa.tar -C Auxiliary_data/hg19/
 rm Auxiliary_data/hg19/male.hg19.fa.tar
@@ -30,7 +30,7 @@ wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE63nnn/GSE63525/suppl/GSE63525%5F
 wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE120nnn/GSE120861/suppl/GSE120861%5Fall%5Fdeg%5Fresults%2Eat%5Fscale%2Etxt%2Egz -q -p Auxiliary_data/CRISPRi_data
 wget http://hgdownload.cse.ucsc.edu/goldenpath/hg19/encodeDCC/wgEncodeBroadHmm/wgEncodeBroadHmmK562HMM.bed.gz -q -P Auxiliary_data/
 # load digest file
-echo "loading epigenomic profile and peak files"
+echo "loading epigenomic profile and peak files" >&3
 
 for item in `cat Auxiliary_data/bed_list.txt`
 do
@@ -64,3 +64,4 @@ CrossMap.py bigwig Auxiliary_data/hg19/hg38ToHg19.over.chain.gz tmp/74667.bw.big
 mv Auxiliary_data/bigwigs/MED1.hg19.bigWig.bw Auxiliary_data/bigwigs/MED1.hg19.bigWig
 wget --header='Host: drive.usercontent.google.com' --header='User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36' --header='Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' --header='Accept-Language: en-US,en;q=0.9,fr;q=0.8,he;q=0.7,uk;q=0.6,ru;q=0.5' --header='Cookie: HSID=AreFZnLEAYNCZd8lD; SSID=AB0KHDJ_k2CmlfeN2; APISID=w0OR5kHsdu-ViFOc/ADZtMAgS6b409t16Q; SAPISID=4LAymAWcB5d1lXsp/A4SLPLDPqA-mPT_rR; __Secure-1PAPISID=4LAymAWcB5d1lXsp/A4SLPLDPqA-mPT_rR; __Secure-3PAPISID=4LAymAWcB5d1lXsp/A4SLPLDPqA-mPT_rR; SEARCH_SAMESITE=CgQIiZsB; AEC=AQTF6HyN-7_1hZyuKLji2rpC5aGjsaO5E70qWDrQ84fwMKw_w7R-JzTT6WE; __Secure-ENID=19.SE=CKt4IM96j1JmgStIOmsvbq1eHWW-yI7A_A-opmoxGtw1RYvGsocdl4BaC4yGquZ_WIiJUoP7vudMHSRG0R0oCkfDAjn1mZRlHsrPnNPjlJjl3bVynKYoi0mr1coOrv6UtdmvtH6b4sOhKGHmnM83pviMnbBAhMBam5XgFLyeIiChrt3lG-JejR9WK9Zd4_4NT3aQcUE1VIGpNfjBdSLYzSHhEa7qg-ew5zcYgaYVDSTq4guxMqjg1hDR4KUc9U4crWSJGb03tDSntMmYwcSd2W7ASoSqUluAcyUlNQ; SID=g.a000jgjZk-sEw8WZQlR7K8xUpALupac4dnRqLHxUoupayhzlgDSBSnOHQwBQF192QvY95oVJhwACgYKATISAQASFQHGX2Mi_3VhqO3HX710vnTopsYTUBoVAUF8yKocFRIn3AefJYol0psthxtF0076; __Secure-1PSID=g.a000jgjZk-sEw8WZQlR7K8xUpALupac4dnRqLHxUoupayhzlgDSB0Yb863nI---ZVBChR265tQACgYKAUoSAQASFQHGX2MiIVcVPKGRidM0D6GDIA4ulRoVAUF8yKoAfd6uG1D-4hxygbgQjAf30076; __Secure-3PSID=g.a000jgjZk-sEw8WZQlR7K8xUpALupac4dnRqLHxUoupayhzlgDSBcx3LThkwemjJg_so7918AgACgYKAecSAQASFQHGX2Mi0yLhhbEuEoG0UwIbcuenyRoVAUF8yKrEx4mWAY8_FAK8oT-XmIUd0076; NID=514=o9tNZU5jtMG3Dj4YIejY3AsbT-KAUQL4L9Cj14eGA-RVqo08pPrCNgBfzFq-1M1OKYIhKXI9FR6Wu9DFlsy1Q5GwUzUOaIiH8FyujiHfB-8mhAbK3BYd_9hNshOAiDbTVZ1kwoAUlm08bAWD_W1XaTlPc0fP7dJErB8rZ1RBuhmoGCgmhZL57rOvWv9PD1WWkQdU3sD9ybOEVgQ_mAaAxn7Tnjk_8GUBW1IIEoCu8us0; __Secure-1PSIDTS=sidts-CjIBLwcBXJNJQWKdBrhrrlo1G7BlDA-YYC7aI_6pxpUXHQzXMSmE2FVg5EmbPPESr4toIBAA; __Secure-3PSIDTS=sidts-CjIBLwcBXJNJQWKdBrhrrlo1G7BlDA-YYC7aI_6pxpUXHQzXMSmE2FVg5EmbPPESr4toIBAA; SIDCC=AKEyXzUDLxRdlsET6OEOM08fjJAg6TwgqMtVGBCVtGT0bcDCLqRY5l_1MqaPTF4jrF39i-GVb7w; __Secure-1PSIDCC=AKEyXzVFOkCcxo2_Ta5BsN7Od8otsC1Zal7KwMU71D8G8MHBJGthDKD2kLvKs0ik-khsWO-FwF0; __Secure-3PSIDCC=AKEyXzXncQyn3bwSkfKgPjpS6zOPCrwz3UgLWKfwCQJdNpD3Ob9Hdw60WLKpOUIL5aMrFPy-Fw' --header='Connection: keep-alive' 'https://drive.usercontent.google.com/download?id=1uS1bTuViHk2MtSZPwLlmapOG4TZ0xKre&export=download&authuser=0&confirm=t&uuid=61ed3e01-50c0-4eb8-93bd-3901d904ccba&at=APZUnTXH7VtsXjX7Qa9QyPsb2tXe:1715794302962' -c -O 'tmp/56379_peaks.bed'
 liftOver tmp/56379_peaks.bed -bedPlus=3  Auxiliary_data/hg19/hg38ToHg19.over.chain.gz Auxiliary_data/peaks/MED1.hg19.peaks.bed.gz tmp/unmapped
+echo "done" >&3
