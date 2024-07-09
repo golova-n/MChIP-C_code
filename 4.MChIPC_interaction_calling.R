@@ -1,4 +1,5 @@
 #! /usr/bin/env Rscript
+system("conda activate mchip-c", intern=T) 
 options(warn=-1)
 suppressMessages({
 library('dplyr')

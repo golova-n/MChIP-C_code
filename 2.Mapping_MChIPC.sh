@@ -48,13 +48,13 @@ echo "mapping MChIPC_rep2" >&3
 bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410273_1.fastq.gz tmp/SRR23410273_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep2.sam.gz
 rm tmp/*.fastq.gz
 
-echo "downloading MChIPC_rep3 fastq files"
+echo "downloading MChIPC_rep3 fastq files" >&3
 wget -q -P tmp/ https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR23410272/SRR23410272
 fasterq-dump -e 16 -O tmp/ tmp/SRR23410272
 rm tmp/SRR23410272
 pigz -p 16 tmp/*.fastq
 
-echo "mapping MChIPC_rep3"
+echo "mapping MChIPC_rep3" >&3
 bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410272_1.fastq.gz tmp/SRR23410272_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep3.sam.gz
 rm tmp/*.fastq.gz
 
@@ -100,7 +100,7 @@ pairtools merge --cmd-in 'pigz -d -p 16' --cmd-out 'pigz -p 16' -o tmp/MChIPC_re
 pairtools merge --cmd-in 'pigz -d -p 16' --cmd-out 'pigz -p 16' -o tmp/MChIPC_rep1.sub_0.1.cis.pairsam.gz tmp/MChIPC_rep1_1.cis.sub_0.1.pairsam.gz tmp/MChIPC_rep1_2.sub_0.1.cis.pairsam.gz tmp/MChIPC_rep1_3.sub_0.1.cis.pairsam.gz
 pairtools merge --cmd-in 'pigz -d -p 16' --cmd-out 'pigz -p 16' -o tmp/MChIPC_rep1.sub_0.25.cis.pairsam.gz tmp/MChIPC_rep1_1.cis.sub_0.25.pairsam.gz tmp/MChIPC_rep1_2.sub_0.25.cis.pairsam.gz tmp/MChIPC_rep1_3.sub_0.25.cis.pairsam.gz
 pairtools merge --cmd-in 'pigz -d -p 16' --cmd-out 'pigz -p 16' -o tmp/MChIPC_rep1.sub_0.5.cis.pairsam.gz tmp/MChIPC_rep1_1.cis.sub_0.5.pairsam.gz tmp/MChIPC_rep1_2.sub_0.5.cis.pairsam.gz tmp/MChIPC_rep1_3.sub_0.5.cis.pairsam.gz
-#rm tmp/*rep1_*
+rm tmp/*rep1_*
 
 for rep in rep1 rep2 rep3 rep4;
 do
