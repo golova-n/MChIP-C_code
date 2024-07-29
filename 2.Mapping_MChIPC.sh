@@ -1,4 +1,8 @@
+#!/usr/bin/env bash
+
 exec 3>&1 &>/dev/null
+source $(conda info --base)/etc/profile.d/conda.sh
+conda activate mchip-c
 
 mkdir -p MChIPC_output/mapping_stats
 mkdir -p MChIPC_output/pairs
@@ -15,7 +19,7 @@ rm tmp/SRR23410275
 pigz -p 16 tmp/*.fastq
 
 echo "mapping MChIPC_rep1_1" >&3
-bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410275_1.fastq.gz tmp/SRR23410275_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep1_1.sam.gz
+bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410275_1.fastq.gz tmp/SRR23410275_2.fastq.gz | pigz -p 16 > tmp/MChIPC_rep1_1.sam.gz
 rm tmp/*.fastq.gz
 
 echo "downloading MChIPC_rep1_2 fastq files" >&3
@@ -25,7 +29,7 @@ rm tmp/SRR23410276
 pigz -p 16 tmp/*.fastq
 
 echo "mapping MChIPC_rep1_2" >&3
-bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410276_1.fastq.gz tmp/SRR23410276_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep1_2.sam.gz
+bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410276_1.fastq.gz tmp/SRR23410276_2.fastq.gz | pigz -p 16 > tmp/MChIPC_rep1_2.sam.gz
 rm tmp/*.fastq.gz
 
 echo "downloading MChIPC_rep1_3 fastq files" >&3
@@ -35,7 +39,7 @@ rm tmp/SRR23410274
 pigz -p 16 tmp/*.fastq
 
 echo "mapping MChIPC_rep1_3" >&3
-bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410274_1.fastq.gz tmp/SRR23410274_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep1_3.sam.gz
+bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410274_1.fastq.gz tmp/SRR23410274_2.fastq.gz | pigz -p 16 > tmp/MChIPC_rep1_3.sam.gz
 rm tmp/*.fastq.gz
 
 echo "downloading MChIPC_rep2 fastq files" >&3
@@ -45,7 +49,7 @@ rm tmp/SRR23410273
 pigz -p 16 tmp/*.fastq
 
 echo "mapping MChIPC_rep2" >&3
-bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410273_1.fastq.gz tmp/SRR23410273_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep2.sam.gz
+bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410273_1.fastq.gz tmp/SRR23410273_2.fastq.gz | pigz -p 16 > tmp/MChIPC_rep2.sam.gz
 rm tmp/*.fastq.gz
 
 echo "downloading MChIPC_rep3 fastq files" >&3
@@ -55,7 +59,7 @@ rm tmp/SRR23410272
 pigz -p 16 tmp/*.fastq
 
 echo "mapping MChIPC_rep3" >&3
-bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410272_1.fastq.gz tmp/SRR23410272_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep3.sam.gz
+bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410272_1.fastq.gz tmp/SRR23410272_2.fastq.gz | pigz -p 16 > tmp/MChIPC_rep3.sam.gz
 rm tmp/*.fastq.gz
 
 echo "downloading MChIPC_rep4 fastq files" >&3
@@ -65,7 +69,7 @@ rm tmp/SRR23410271
 pigz -p 16 tmp/*.fastq
 
 echo "mapping MChIPC_rep4" >&3
-bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410271_1.fastq.gz tmp/SRR23410271_2.fastq.gz 2>/dev/null | pigz -p 16 > tmp/MChIPC_rep4.sam.gz
+bwa mem -SP5M -t 16 Auxiliary_data/hg19/male.hg19.fa tmp/SRR23410271_1.fastq.gz tmp/SRR23410271_2.fastq.gz | pigz -p 16 > tmp/MChIPC_rep4.sam.gz
 rm tmp/*.fastq.gz
 
 for rep in rep1_1 rep1_2 rep1_3 rep2 rep3 rep4;
@@ -84,7 +88,7 @@ do
 		pairtools sort --cmd-in 'pigz -d -p 16' --cmd-out 'pigz -p 16' --nproc 16 -o tmp/MChIPC_$rep.sub_$sample.sorted.pairsam.gz tmp/MChIPC_$rep.sub_$sample.pairsam.gz;
 		pairtools select --cmd-in 'pigz -d -p 16' --cmd-out 'pigz -p 16'  '((chrom1==chrom2) and (abs(pos1 - pos2) > 5000))' -o tmp/MChIPC_$rep.sub_$sample.cis.pairsam.gz tmp/MChIPC_$rep.sub_$sample.sorted.pairsam.gz;
 		pairtools select --cmd-in 'pigz -d -p 16' --cmd-out 'pigz -p 16' '((chrom1==chrom2) and (abs(pos1 - pos2) > 100) and (abs(pos1-pos2) < 200) and (strand1=="+") and (strand2=="-"))' -o tmp/MN_$rep.sub_$sample.pairsam.gz tmp/MChIPC_$rep.sub_$sample.sorted.pairsam.gz;
-		rm tmp/MChIPC_$rep.sub_$sample.pairsam.gz
+		rm tmp/MChIPC_$rep.sub_$sample.pairsam.gz;
 	done
 	rm tmp/MChIPC_$rep.pairsam.gz;
 	rm tmp/*.sorted.pairsam.gz;

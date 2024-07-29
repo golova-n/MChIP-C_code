@@ -1,5 +1,4 @@
 #! /usr/bin/env Rscript
-system("conda activate mchip-c", intern=T) 
 options(warn=-1)
 suppressMessages({
 library('dplyr')
@@ -241,16 +240,16 @@ interactions_rep3 <- read.csv("tmp/interactions.sum.rep3.sub_0.1.txt", header = 
 interactions_rep4 <- read.csv("tmp/interactions.sum.rep4.sub_0.1.txt", header = F, sep = "\t")
 
 coverage_OE_rep1 <- read.csv("tmp/genomic_bins_coverage_rep1.sub_0.1.bed", header = F, sep = "\t")
-coverage_vp_rep1 <- read.csv("tmp/viewpoints_coverage_rep1.sub_0.1.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep1 <- read.csv("tmp/viewpoints_coverage_rep1.sub_0.1.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep1 <- coverage_vp_rep1[,c(1,2,3,5)]
 coverage_OE_rep2 <- read.csv("tmp/genomic_bins_coverage_rep2.sub_0.1.bed", header = F, sep = "\t")
-coverage_vp_rep2 <- read.csv("tmp/viewpoints_coverage_rep2.sub_0.1.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep2 <- read.csv("tmp/viewpoints_coverage_rep2.sub_0.1.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep2 <- coverage_vp_rep2[,c(1,2,3,5)]
 coverage_OE_rep3 <- read.csv("tmp/genomic_bins_coverage_rep3.sub_0.1.bed", header = F, sep = "\t")
-coverage_vp_rep3 <- read.csv("tmp/viewpoints_coverage_rep3.sub_0.1.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep3 <- read.csv("tmp/viewpoints_coverage_rep3.sub_0.1.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep3 <- coverage_vp_rep3[,c(1,2,3,5)]
 coverage_OE_rep4 <- read.csv("tmp/genomic_bins_coverage_rep4.sub_0.1.bed", header = F, sep = "\t")
-coverage_vp_rep4 <- read.csv("tmp/viewpoints_coverage_rep4.sub_0.1.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep4 <- read.csv("tmp/viewpoints_coverage_rep4.sub_0.1.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep4 <- coverage_vp_rep4[,c(1,2,3,5)]
 
 colnames(interactions_rep1) <- c("vp_chr","vp_start","vp_end","OE_chr","OE_start","OE_end", "N_rep1")
@@ -350,16 +349,16 @@ interactions_rep3 <- read.csv("tmp/interactions.sum.rep3.sub_0.25.txt", header =
 interactions_rep4 <- read.csv("tmp/interactions.sum.rep4.sub_0.25.txt", header = F, sep = "\t")
 
 coverage_OE_rep1 <- read.csv("tmp/genomic_bins_coverage_rep1.sub_0.25.bed", header = F, sep = "\t")
-coverage_vp_rep1 <- read.csv("tmp/viewpoints_coverage_rep1.sub_0.25.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep1 <- read.csv("tmp/viewpoints_coverage_rep1.sub_0.25.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep1 <- coverage_vp_rep1[,c(1,2,3,5)]
 coverage_OE_rep2 <- read.csv("tmp/genomic_bins_coverage_rep2.sub_0.25.bed", header = F, sep = "\t")
-coverage_vp_rep2 <- read.csv("tmp/viewpoints_coverage_rep2.sub_0.25.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep2 <- read.csv("tmp/viewpoints_coverage_rep2.sub_0.25.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep2 <- coverage_vp_rep2[,c(1,2,3,5)]
 coverage_OE_rep3 <- read.csv("tmp/genomic_bins_coverage_rep3.sub_0.25.bed", header = F, sep = "\t")
-coverage_vp_rep3 <- read.csv("tmp/viewpoints_coverage_rep3.sub_0.25.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep3 <- read.csv("tmp/viewpoints_coverage_rep3.sub_0.25.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep3 <- coverage_vp_rep3[,c(1,2,3,5)]
 coverage_OE_rep4 <- read.csv("tmp/genomic_bins_coverage_rep4.sub_0.25.bed", header = F, sep = "\t")
-coverage_vp_rep4 <- read.csv("tmp/viewpoints_coverage_rep4.sub_0.25.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep4 <- read.csv("tmp/viewpoints_coverage_rep4.sub_0.25.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep4 <- coverage_vp_rep4[,c(1,2,3,5)]
 
 colnames(interactions_rep1) <- c("vp_chr","vp_start","vp_end","OE_chr","OE_start","OE_end", "N_rep1")
@@ -461,16 +460,16 @@ interactions_rep3 <- read.csv("tmp/interactions.sum.rep3.sub_0.5.txt", header = 
 interactions_rep4 <- read.csv("tmp/interactions.sum.rep4.sub_0.5.txt", header = F, sep = "\t")
 
 coverage_OE_rep1 <- read.csv("tmp/genomic_bins_coverage_rep1.sub_0.5.bed", header = F, sep = "\t")
-coverage_vp_rep1 <- read.csv("tmp/viewpoints_coverage_rep1.sub_0.5.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep1 <- read.csv("tmp/viewpoints_coverage_rep1.sub_0.5.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep1 <- coverage_vp_rep1[,c(1,2,3,5)]
 coverage_OE_rep2 <- read.csv("tmp/genomic_bins_coverage_rep2.sub_0.5.bed", header = F, sep = "\t")
-coverage_vp_rep2 <- read.csv("tmp/viewpoints_coverage_rep2.sub_0.5.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep2 <- read.csv("tmp/viewpoints_coverage_rep2.sub_0.5.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep2 <- coverage_vp_rep2[,c(1,2,3,5)]
 coverage_OE_rep3 <- read.csv("tmp/genomic_bins_coverage_rep3.sub_0.5.bed", header = F, sep = "\t")
-coverage_vp_rep3 <- read.csv("tmp/viewpoints_coverage_rep3.sub_0.5.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep3 <- read.csv("tmp/viewpoints_coverage_rep3.sub_0.5.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep3 <- coverage_vp_rep3[,c(1,2,3,5)]
 coverage_OE_rep4 <- read.csv("tmp/genomic_bins_coverage_rep4.sub_0.5.bed", header = F, sep = "\t")
-coverage_vp_rep4 <- read.csv("tmp/viewpoints_coverage_rep4.sub_0.5.bed", header = F, sep = "\t",  dec=".")
+coverage_vp_rep4 <- read.csv("tmp/viewpoints_coverage_rep4.sub_0.5.bed", header = F, sep = "\t",  dec=",")
 coverage_vp_rep4 <- coverage_vp_rep4[,c(1,2,3,5)]
 
 colnames(interactions_rep1) <- c("vp_chr","vp_start","vp_end","OE_chr","OE_start","OE_end", "N_rep1")

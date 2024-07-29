@@ -1,5 +1,7 @@
-exec 3>&1 &>/dev/null
+#!/usr/bin/env bash
 
+exec 3>&1 &>/dev/null
+source $(conda info --base)/etc/profile.d/conda.sh
 conda activate mchip-c
 
 echo "generating mononucleosomal profiles" >&3
@@ -8,12 +10,16 @@ do
 	samtools index -@ 16 MChIPC_output/sam/Mononucleosomal_$rep.sorted.bam
 	bamCoverage -p 16 -b MChIPC_output/sam/Mononucleosomal_$rep.sorted.bam -bs 50 -e -o MChIPC_output/mononucleosomal_and_ChIP/Mononucleosomal_$rep.bw
 done
+bigwigCompare -b1 MChIPC_output/mononucleosomal_and_ChIP/Mononucleosomal_rep1.bw -b2 MChIPC_output/mononucleosomal_and_ChIP/Mononucleosomal_rep2.bw --operation mean -p 16 -o tmp/Mononucleosomal_1_2.bw
+bigwigCompare -b1 MChIPC_output/mononucleosomal_and_ChIP/Mononucleosomal_rep3.bw -b2 MChIPC_output/mononucleosomal_and_ChIP/Mononucleosomal_rep4.bw --operation mean -p 16 -o tmp/Mononucleosomal_3_4.bw
+bigwigCompare -b1 tmp/Mononucleosomal_1_2.bw -b2 tmp/Mononucleosomal_3_4.bw --operation mean -p 16 -o MChIPC_output/mononucleosomal_and_ChIP/Mononucleosomal_mean.bw
+rm tmp/*.bw
 
 echo "calling peaks in mononuclesomal profiles and identifying MChIP-C viewpoints" >&3
 mkdir -p tmp/macs/
 for rep in rep1 rep2 rep3 rep4;
 do
-	macs2 callpeak -t MChIPC_output/sam/Mononucleosomal_$rep.sorted.bam --outdir tmp/macs/ -n Mononucleosomal_$rep -f BAMPE -q 0.0001 --max-gap 1000 --verbose 0
+	macs2 callpeak -t MChIPC_output/sam/Mononucleosomal_$rep.sorted.bam --outdir tmp/macs/ -n Mononucleosomal_$rep -f BAMPE -q 0.0001 --max-gap 1000
 done
 mv tmp/macs/*.narrowPeak MChIPC_output/mononucleosomal_and_ChIP
 bedtools makewindows -g Auxiliary_data/hg19/hg19.chrom.sizes -w 250 > Auxiliary_data/hg19/genomic_bins.bed
@@ -82,7 +88,6 @@ do
 		awk '{OFS="\t"}{$5=$4*250/($3-$2)}{print}' tmp/viewpoints_coverage_$rep$sample.bed > tmp/tmp.bed && mv -f tmp/tmp.bed tmp/viewpoints_coverage_$rep$sample.bed
 		samtools bedcov Auxiliary_data/hg19/genomic_bins.bed tmp/Mononucleosomal_$rep$sample.sorted.bam > tmp/genomic_bins_coverage_$rep$sample.bed
 		#rm tmp/MChIPC_$rep.sub_$sample.dedup.pairsam.gz tmp/MChIPC_$rep.sub_$sample.pairs.gz tmp/Mononucleosomal_$rep.sub_$sample.sorted.bam tmp/stats_dedup_MChIPC_$rep.sub_$sample.txt
-		awk '{OFS="\t"}{$5=$4*250/($3-$2)}{print}' tmp/viewpoints_coverage_$rep$sample.bed > tmp/tmp.bed && mv -f tmp/tmp.bed tmp/viewpoints_coverage_$rep$sample.bed
 	done
 done
 
